@@ -46,6 +46,7 @@ Some parts of the project (for example, repeated scan runs and interactive work 
 
 5. FOLDER STRUCTURE
 
+```
 FYP_Submission/
 ├── README.txt
 ├── code/
@@ -66,6 +67,7 @@ FYP_Submission/
 ├── screenshots/
 └── powerbi/
     └── networkVulnScanDashboard.pbix
+```
 
 6. FILE DESCRIPTIONS
 
