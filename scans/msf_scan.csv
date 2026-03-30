@@ -1,0 +1,11 @@
+host,port,service,vulnerability,severity,cvss_score,description
+192.168.56.102,22,ssh,Weak SSH Version,medium,5.3,OpenSSH 4.7p1 is outdated and vulnerable to timing attacks
+192.168.56.102,80,http,Apache Default Config,medium,5.3,Apache 2.2.8 has default configuration vulnerabilities
+192.168.56.102,80,http,Cross-Site Scripting,high,7.1,Web application vulnerable to XSS attacks
+192.168.56.102,139,netbios,SMB Shares Enumeration,medium,4.9,SMB shares are enumerable and potentially accessible
+192.168.56.102,445,smb,Samba Version Outdated,high,7.5,Samba 3.X version has known exploitable vulnerabilities
+192.168.56.102,445,smb,SMB Null Session,medium,5.0,Null session available on SMB service
+192.168.56.102,3306,mysql,MySQL Weak Authentication,high,8.1,MySQL allows remote access with weak credentials
+192.168.56.102,3306,mysql,SQL Injection Possible,critical,9.8,Application vulnerable to SQL injection attacks
+192.168.56.102,5432,postgresql,Postgres Weak Password,high,8.0,PostgreSQL configured with default/weak passwords
+192.168.56.102,5432,postgresql,Unencrypted Connection,medium,6.5,PostgreSQL database connections are not encrypted

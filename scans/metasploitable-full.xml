@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<nmaprun scanner="nmap" args="nmap -sV -p- 192.168.56.102" start="1700000000" startstr="Thu Nov 16 12:13:20 2023" version="7.80" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1700000001" endtime="1700000120">
+<status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.56.102" addrtype="ipv4"/>
+<address addr="08:00:27:C6:9D:88" addrtype="mac" vendor="Oracle VirtualBox virtual NIC"/>
+<hostnames>
+<hostname name="metasploitable.local" type="PTR"/>
+</hostnames>
+<ports>
+<port protocol="tcp" portid="21">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="ftp" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="22">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="ssh" product="OpenSSH" version="4.7p1 Debian 8ubuntu1" extrainfo="protocol 2.0" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="23">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="telnet" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="25">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="smtp" product="Postfix smtpd" version="2.5.1" extrainfo="" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="53">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="domain" product="ISC BIND" version="9.4.2" extrainfo="" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="80">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="http" product="Apache httpd" version="2.2.8" extrainfo="(Ubuntu) DAV/2" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="111">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="rpcbind" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="139">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="netbios-ssn" product="Samba smbsrv" extrainfo="" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="445">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="microsoft-ds" product="Samba smbd 3.X" extrainfo="workgroup: WORKGROUP" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="512">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="exec" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="513">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="login" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="514">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="shell" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="1099">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="rmiregistry" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="1524">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="ingreslock" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="2049">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="nfs" product="2-4" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="2121">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="ccproxy-ftp" product="ProFTPD" version="1.3.1" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="3306">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="mysql" product="MySQL" version="5.0.51a" extrainfo="Ubuntu and Debian" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="3632">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="distccd" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="5432">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="postgresql" product="PostgreSQL DB" version="8.2.11" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="5900">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="vnc" product="VNC" version="3.3" extrainfo="protocol 3.3" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="6000">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="X11" method="table" conf="10"/>
+</port>
+<port protocol="tcp" portid="6667">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="irc" product="Unreal ircd" version="3.2.8.1" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="8009">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="ajp13" product="Apache Tomcat/Coyote JSP engine" version="1.1" method="probed" conf="10"/>
+</port>
+<port protocol="tcp" portid="8180">
+<state state="open" reason="syn-ack" reason_ttl="0"/>
+<service name="http" product="Apache Tomcat" version="5.5.26" extrainfo="(Ubuntu)" method="probed" conf="10"/>
+</port>
+</ports>
+<times srtt="1000" rttvar="5000" to="100000"/>
+</host>
+<runstats>
+<finished time="1700000121" timestr="Thu Nov 16 12:15:21 2023" summary="Nmap done at Thu Nov 16 12:15:21 2023; 1 IP address (1 host up) scanned in 121.23 seconds" elapsed="121.23" exit="success"/>
+<hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

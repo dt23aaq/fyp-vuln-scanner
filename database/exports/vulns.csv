@@ -1,0 +1,9 @@
+vuln_id,service_id,vuln_name,severity,cvss_score,cve_id,description
+1,1,Weak SSH Version,medium,5.3,CVE-2008-5161,OpenSSH 4.7p1 is outdated and contains known vulnerabilities
+2,2,Apache Default Config,medium,5.3,CVE-2009-1891,Apache 2.2.8 is running with default insecure configuration
+3,3,Samba Version Outdated,high,7.5,CVE-2012-1182,Samba 3.X contains multiple known exploitable vulnerabilities
+4,4,MySQL Weak Authentication,high,8.1,CWE-521,MySQL allows remote access with weak default credentials
+5,5,Postgres Weak Password,high,8.0,CWE-521,PostgreSQL configured with default/weak passwords
+6,6,SSH Version Disclosure,low,2.1,CWE-200,SSH service discloses version information
+7,7,HTTP Server Banner,low,2.7,CWE-200,Web server exposes version and technology information
+8,8,SSL/TLS Not Enforced,medium,5.9,CWE-311,HTTPS available but not enforced
