@@ -73,14 +73,14 @@ FYP_Submission/
 
 6.1 Code (code/)
 
-- nmap_to_progres.py  
-  Python script used to process Nmap XML output and support import or interaction with PostgreSQL. This script represents the main processing logic developed for the project.
+- nmap_to_progres.py
+  Python script that connects to PostgreSQL, creates the vulnerability table, and inserts selected vulnerability findings associated with the Metasploitable scan.
 
-- xml_to_csv  
-  Script used to convert XML scan output into CSV format. This was used to prepare data for analysis and/or for loading into other tools.
+- xml_to_csv
+  Python script that automatically parses Nmap XML output and extracts open ports, protocols, services, product names, and versions into CSV format.
 
-- README  
-  Original, very short note file created during development (kept here as an original artefact).
+- README
+  Original short project note file retained as a development artefact.
 
 6.2 Scan and data artefacts (scans/)
 
