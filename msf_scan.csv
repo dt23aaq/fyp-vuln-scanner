@@ -1,0 +1,10 @@
+[0m[1m[34m[*][0m Connected to msf. Connection type: postgresql.
+[0m
+Hosts
+=====
+
+address  mac  name  os_name  os_flavor  os_sp  purpose  info  comments
+-------  ---  ----  -------  ---------  -----  -------  ----  --------
+
+[0m[1m[31m[-][0m Unknown command: q. Run the [32mhelp[0m command for more details.
+[?1034h[4mmsf[0m [0m> 
