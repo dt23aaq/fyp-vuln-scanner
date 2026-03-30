@@ -16,19 +16,30 @@ python3 xml_to_csv.py <input_file.xml>
 Creates a CSV file with columns: ip, port, protocol, service, product, version
 
 ### nmap_to_progres.py
-Imports Nmap XML scan results directly into a PostgreSQL database.
+Imports Nmap XML scan results directly into a PostgreSQL database (Kali default configuration).
 
 **Usage:**
 ```
-python3 nmap_to_progres.py <input_file.xml> [db_host] [db_name] [db_user] [db_password]
+python3 nmap_to_progres.py metasploitable-scan.xml
 ```
 
-**Default values:**
-- db_host: localhost
-- db_name: vuln_scanner
-- db_user: postgres
-- db_password: password
+**Database Table Created:**
+- port: INTEGER
+- service: VARCHAR(50)
+- version: VARCHAR(50)
+- cve: VARCHAR(50)
+- cvss: FLOAT
+- exploited: BOOLEAN
 
-**Requirements:**
-- psycopg2: `pip install psycopg2-binary`
-- PostgreSQL database with initialized schema
+**Default Configuration:**
+- Database: msf
+- User: msf
+- Password: (empty)
+
+**Sample Vulnerabilities Loaded:**
+- vsftpd 2.3.4 (CVE-2011-2523, CVSS 10.0)
+- Bindshell root shell (Direct RCE, CVSS 10.0)
+- Samba 3.0.20 (CVE-2007-2447, CVSS 9.3)
+- PostgreSQL 8.3.0 (Weak Auth, CVSS 7.5)
+- UnrealIRCd 3.2.8.1 (CVE-2010-2075, CVSS 10.0)
+

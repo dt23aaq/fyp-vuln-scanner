@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
-<nmaprun scanner="nmap" args="nmap -sV -p 22,80,445,3306,5432 192.168.56.102" start="1700000200" startstr="Thu Nov 16 12:16:40 2023" version="7.80" xmloutputversion="1.05">
-<scaninfo type="syn" protocol="tcp" numservices="5" services="22,80,445,3306,5432"/>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.95 scan initiated Fri Feb 27 16:47:04 2026 as: /usr/lib/nmap/nmap -&#45;privileged -sS -sV -O -p- -oX metasploitable-scan.xml 192.168.56.102 -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -&#45;privileged -sS -sV -O -p- -oX metasploitable-scan.xml 192.168.56.102" start="1772228824" startstr="Fri Feb 27 16:47:04 2026" version="7.95" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
 <verbose level="0"/>
 <debugging level="0"/>
 <host starttime="1700000201" endtime="1700000220">
