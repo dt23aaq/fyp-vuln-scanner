@@ -49,5 +49,5 @@ def parse_nmap_xml(xml_file):
         print("No open ports found")
 
 if __name__ == "__main__":
-    xml_file = sys.argv[1] if len(sys.argv) > 1 else 'scan1.xml'
+    xml_file = sys.argv[1] if len(sys.argv) > 1 else 'metasploitable-scan.xml'
     parse_nmap_xml(xml_file)
