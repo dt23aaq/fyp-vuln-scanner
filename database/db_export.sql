@@ -1,6 +1,6 @@
 -- PostgreSQL Database Export
 -- Vulnerability Scanner FYP Project
--- Export Date: 2023-11-16
+-- Export Date: 2026-03-25
 -- This file contains sample data for demonstration purposes
 
 -- Insert sample hosts
