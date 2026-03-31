@@ -21,7 +21,7 @@ scan_data = [
     (5432, 'postgresql', '8.3.0', 'Weak Auth', 7.5, True),
     (6667, 'unrealircd', '3.2.8.1', 'CVE-2010-2075', 10.0, True)
 ]
-
+cur.execute("DELETE FROM vulns")
 cur.executemany("""
 INSERT INTO vulns (port, service, version, finding, cvss, exploited)
 VALUES (%s, %s, %s, %s, %s, %s)
