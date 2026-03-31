@@ -1,5 +1,5 @@
 -- PostgreSQL Database Schema for Vulnerability Scanner
--- Created for FYP Vulnerability Assessment Project
+-- This schema defines the structure of the database used to store scan results, hosts, services, and vulnerabilities
 
 -- Hosts table: Stores information about scanned hosts
 CREATE TABLE IF NOT EXISTS hosts (
