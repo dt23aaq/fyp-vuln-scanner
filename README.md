@@ -1,5 +1,8 @@
 # Network Vulnerability Scanner with Power BI
 
+## Repository Access
+GitHub repository: https://github.com/dt23aaq/fyp-vuln-scanner
+
 ## 1. Project Title
 Network Vulnerability Scanner with PostgreSQL and Power BI
 
