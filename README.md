@@ -202,7 +202,65 @@ To re-use the scripts in a similar environment:
 
 All scanning for this project was carried out on intentionally vulnerable systems within a closed lab network. No scans were run against systems without explicit permission.
 
-12. AUTHOR
+12. DESIGN RATIONALE
+
+How the pipeline works:
+- Discovery: Nmap and Metasploit are used to collect host, service, and vulnerability evidence.
+- Transformation: Python scripts parse XML/CSV outputs into structured datasets.
+- Storage: PostgreSQL stores normalized records (hosts, services, vulnerabilities) for querying.
+- Reporting: Power BI consumes exported CSV data to produce risk-focused visualizations.
+
+Why Microsoft Power BI was selected:
+- It provides fast dashboard development with strong filtering and drill-down capability.
+- It is widely used in enterprise reporting, improving employability and practical relevance.
+- It integrates well with CSV and PostgreSQL sources used in this project.
+- It supports publishing and refresh workflows that can be expanded for operational use.
+
+13. STRESS TESTING AND OVERLOAD BEHAVIOR
+
+Stress testing approach used in this project:
+- Repeated scan imports and CSV refresh cycles were executed to validate pipeline stability.
+- Larger scan files were processed to observe parse/runtime behavior.
+- Dashboard interaction was tested under high record counts and multiple filter combinations.
+
+Observed overload scenarios and dashboard response:
+- High-cardinality visuals reduced responsiveness when too many categories were displayed.
+- Simultaneous slicer filters increased query/render time on lower-resource systems.
+- Very dense service/vulnerability tables reduced readability in single-page views.
+
+Mitigations applied:
+- Use summary visuals first (severity distribution, top vulnerable services), then drill-through.
+- Limit default visual density and apply filter scope to reduce rendering overhead.
+- Keep exports modular (hosts/services/vulns) so visuals query smaller datasets.
+
+14. SCALABILITY, MAINTAINABILITY, AND COMPATIBILITY
+
+Scalability path:
+- Extend scanning from single host to subnet ranges and multiple targets.
+- Run scheduled scans and append results to historical tables.
+- Introduce batching/queueing for larger import workloads.
+
+Maintainability features:
+- The workflow is modular (scan -> parse -> store -> visualize), so components can be replaced independently.
+- Standard formats (XML, CSV, SQL) are used to avoid vendor lock-in.
+- Clear folder structure and schema separation simplify updates and troubleshooting.
+
+Compatibility:
+- Microsoft ecosystem: Power BI, Windows-hosted PostgreSQL, and potential Azure integration.
+- Beyond Microsoft: the same outputs can be consumed by other BI tools and SIEM/data platforms.
+
+15. CLOUD/AZURE FUTURE WORK
+
+Current constraint encountered:
+- Azure/AWS integration attempts were limited by ISP firewall and SSL certificate interception issues, which also affected Power BI cloud connectivity.
+
+Planned next steps:
+- Use student Azure credits to deploy a small PostgreSQL-compatible data endpoint.
+- Publish dashboard to Power BI Service with controlled refresh testing.
+- Add secure ingestion and certificate validation checks for cloud data sources.
+- Prototype automation for VM lifecycle/recovery telemetry as an extension of this project.
+
+16. AUTHOR
 Darrel Toledo
 Final Year Project
 BSc (Hons) Computer Science (Cyber Security and Networks)
