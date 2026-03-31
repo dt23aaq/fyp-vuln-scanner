@@ -1,4 +1,4 @@
-Network Vulnerability Scanner with Power B.I.
+Network Vulnerability Scanner with Power BI
 
 1. PROJECT TITLE
 **Network Vulnerability Scanner with PostgreSQL and Power BI**
@@ -22,7 +22,7 @@ Target:
 - IP address: 192.168.56.102
 
 Network range used during testing:
-- 192.168.1.0/24 (lab subnet reference)
+- 192.168.56.0/24 (lab subnet reference)
 
 Tools used:
 - Nmap
@@ -38,7 +38,7 @@ This submission folder is a cleaned copy of the main artefacts produced during t
 
 - the key Python scripts used in the processing pipeline,
 - selected Nmap and Metasploit output files,
-- (optionally) database export files, if present,
+- database schema and export files,
 - the Power BI dashboard file,
 - and screenshots used as evidence of the system in use.
 
@@ -48,22 +48,22 @@ Some parts of the project (for example, repeated scan runs and interactive work 
 
 ```
 FYP_Submission/
-├── README.txt
+├── README.md
 ├── code/
 │   ├── nmap_to_progres.py
-│   ├── xml_to_csv
+│   ├── xml_to_csv.py
 │   └── README
 ├── scans/
 │   ├── metasploitable-full.xml
 │   ├── metasploitable-scan.xml
 │   └── msf_scan.csv
 ├── database/
-│   ├── schema.sql          (if available)
-│   ├── db_export.sql       (if available)
+│   ├── schema.sql
+│   ├── db_export.sql
 │   └── exports/
-│       ├── hosts.csv       (if available)
-│       ├── services.csv    (if available)
-│       └── vulns.csv       (if available)
+│       ├── hosts.csv
+│       ├── services.csv
+│       └── vulns.csv
 ├── screenshots/
 └── powerbi/
     └── networkVulnScanDashboard.pbix
@@ -76,7 +76,7 @@ FYP_Submission/
 - nmap_to_progres.py
   Python script that connects to PostgreSQL, creates the vulnerability table, and inserts selected vulnerability findings associated with the Metasploitable scan.
 
-- xml_to_csv
+- xml_to_csv.py
   Python script that automatically parses Nmap XML output and extracts open ports, protocols, services, product names, and versions into CSV format.
 
 - README
@@ -95,7 +95,7 @@ FYP_Submission/
 
 6.3 Database files (database/ and database/exports/)
 
-These files are included only if database exports were generated and retained:
+These files are included as part of the project data exports:
 
 - schema.sql  
   PostgreSQL schema export (table definitions for hosts, services, vulnerabilities, etc.).
@@ -111,8 +111,6 @@ These files are included only if database exports were generated and retained:
 
 - exports/vulns.csv  
   Export of the vulnerabilities table as CSV.
-
-If any of these files are missing, it means that particular export was performed only within the Kali environment and not preserved in this final copy. The schema and table design are described in the written report.
 
 6.4 Screenshots (screenshots/)
 
@@ -137,7 +135,7 @@ The intended workflow for the project is:
    - Save the output to XML (and CSV for Metasploit).
 
 2. Processing  
-   - Use the Python scripts (e.g. nmap_to_progres.py, xml_to_csv) to parse the scan results and prepare data for storage or further analysis.
+  - Use the Python scripts (e.g. nmap_to_progres.py, xml_to_csv.py) to parse the scan results and prepare data for storage or further analysis.
 
 3. Storage (optional in this folder)  
    - Store the processed data in PostgreSQL tables (hosts, services, vulnerabilities, etc.).  
@@ -162,7 +160,7 @@ The intended workflow for the project is:
 
 3. Load vulnerability findings into PostgreSQL:
    ```
-   python3 nmap_to_postgresql.py
+  python3 nmap_to_progres.py
    ```
 
 4. Use the CSVs in `database/` and `scans/msf_scan.csv` as data sources in Power BI:
@@ -185,7 +183,7 @@ To re-use the scripts in a similar environment:
 3. Run the Python scripts from the code/ folder, for example:
 
    - python3 nmap_to_progres.py  
-   - python3 xml_to_csv
+  - python3 xml_to_csv.py
 
    (Exact arguments and usage depend on the implementation inside the scripts.)
 
