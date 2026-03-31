@@ -147,7 +147,30 @@ The intended workflow for the project is:
    - Load the exported data into Power BI.  
    - Build and view the dashboard defined in networkVulnScanDashboard.pbix.
 
-8. HOW TO RE-RUN (IF DESIRED)
+8. HOW TO RUN
+
+1. Run Nmap against the target and save XML:
+   ```
+   nmap -sS -sV -O -p- -oX scans/metasploitable-scan.xml 192.168.56.102
+   ```
+
+2. Parse Nmap XML to CSV:
+   ```
+   cd code
+   python3 xml_to_csv.py ../scans/metasploitable-scan.xml
+   ```
+
+3. Load vulnerability findings into PostgreSQL:
+   ```
+   python3 nmap_to_postgresql.py
+   ```
+
+4. Use the CSVs in `database/` and `scans/msf_scan.csv` as data sources in Power BI:
+   - Open `powerbi/networkVulnScanDashboard.pbix`
+   - Connect to the exported CSV files or database
+   - View the dashboard with vulnerability findings
+
+9. HOW TO RE-RUN (IF DESIRED)
 
 To re-use the scripts in a similar environment:
 
@@ -170,18 +193,18 @@ To re-use the scripts in a similar environment:
 
 5. Open powerbi/networkVulnScanDashboard.pbix with Power BI Desktop and point it to the appropriate CSV files or database connection, if required.
 
-9. LIMITATIONS AND NOTES
+10. LIMITATIONS AND NOTES
 
 - Some runtime activity and intermediate files exist only inside the original Kali VM and are not fully reproduced in this submission.
 - Several files were used purely for demonstration or experimentation and are not all included here.
 - The artefacts in this folder are a cleaned and structured subset designed to support assessment and understanding of the main project components.
 - The written report should be read alongside these artefacts for full context.
 
-10. ETHICAL CONSIDERATIONS
+11. ETHICAL CONSIDERATIONS
 
 All scanning for this project was carried out on intentionally vulnerable systems within a closed lab network. No scans were run against systems without explicit permission.
 
-11. AUTHOR
+12. AUTHOR
 Darrel Toledo
 Final Year Project
 BSc (Hons) Computer Science (Cyber Security and Networks)
