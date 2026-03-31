@@ -5,8 +5,8 @@
 
 -- Insert sample hosts
 INSERT INTO hosts (ip_address, hostname, mac_address, os_detected, scan_date) VALUES
-('192.168.56.102'::inet, 'metasploitable.local', '08:00:27:C6:9D:88', 'Linux 2.6.24', '2023-11-16 12:13:20'),
-('192.168.56.103'::inet, 'target-01.local', '08:00:27:AA:BB:CC', 'Linux 3.10', '2023-11-16 12:15:00');
+('192.168.56.102'::inet, 'metasploitable.local', '08:00:27:C6:9D:88', 'Linux 2.6.24', '2026-03-25 12:13:20'),
+('192.168.56.103'::inet, 'target-01.local', '08:00:27:AA:BB:CC', 'Linux 3.10', '2026-03-25 12:15:00');
 
 -- Insert sample services
 INSERT INTO services (host_id, port, protocol, service_name, product, version, state) VALUES
