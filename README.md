@@ -145,6 +145,17 @@ python3 nmap_to_postgresql.py
 - Connect to exported CSV files or database.
 - View dashboard findings.
 
+Optional one-command local automation:
+```bash
+./run_local_pipeline.sh
+```
+
+Optional scheduled local automation (example: every 30 minutes):
+```bash
+crontab -e
+*/30 * * * * cd /Users/dtoledo/Desktop/fyp-vuln-scanner && ./run_local_pipeline.sh >> pipeline.log 2>&1
+```
+
 ## 9. How to Re-run (If Desired)
 1. Set up Kali Linux (or another Linux distribution) with:
     - Python 3

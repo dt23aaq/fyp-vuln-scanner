@@ -1,0 +1,5 @@
+.DS_Store
+__pycache__/
+*.pyc
+Toledo_22087552.zip
+fyp-vuln-scanner/
