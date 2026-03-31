@@ -1,4 +1,4 @@
-Network Vulnerability Scanner with Power BI
+# Network Vulnerability Scanner with Power BI
 
 1. PROJECT TITLE
 **Network Vulnerability Scanner with PostgreSQL and Power BI**
@@ -42,7 +42,7 @@ This submission folder is a curated copy of the main artefacts produced during t
 - the Power BI dashboard file,
 - and screenshots used as evidence of the system in use.
 
-Some parts of the project (for example, repeated scan runs and interactive work in Kali) are not fully reproduced here and are documented in the written report.
+Some parts of the project (for example, repeated scan runs and interactive work in Kali) are not fully reproduced here; these are documented in the written report.
 
 5. FOLDER STRUCTURE
 
@@ -135,7 +135,7 @@ The intended workflow for the project is:
    - Save the output to XML (and CSV for Metasploit).
 
 2. Processing  
-  - Use the Python scripts (e.g. nmap_to_progres.py, xml_to_csv.py) to parse the scan results and prepare data for storage or further analysis.
+  - Use the Python scripts (e.g. nmap_to_progres.py, xml_to_csv.py) to parse scan results and prepare data for storage and analysis.
 
 3. Storage (optional in this folder)  
    - Store the processed data in PostgreSQL tables (hosts, services, vulnerabilities, etc.).  
@@ -163,7 +163,7 @@ The intended workflow for the project is:
   python3 nmap_to_progres.py
    ```
 
-4. Use the CSVs in `database/` and `scans/msf_scan.csv` as data sources in Power BI:
+4. Use the CSVs in `database/exports/` and `scans/msf_scan.csv` as data sources in Power BI:
    - Open `powerbi/networkVulnScanDashboard.pbix`
    - Connect to the exported CSV files or database
   - View the dashboard with vulnerability findings.
