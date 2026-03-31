@@ -34,7 +34,7 @@ Tools used:
 All scans were carried out in a private lab using intentionally vulnerable systems.
 
 4. PURPOSE OF THIS SUBMISSION FOLDER
-This submission folder is a cleaned copy of the main artefacts produced during the project. It is not a full VM backup, but it contains:
+This submission folder is a curated copy of the main artefacts produced during the project. It is not a full VM backup, but it contains:
 
 - the key Python scripts used in the processing pipeline,
 - selected Nmap and Metasploit output files,
@@ -42,12 +42,12 @@ This submission folder is a cleaned copy of the main artefacts produced during t
 - the Power BI dashboard file,
 - and screenshots used as evidence of the system in use.
 
-Some parts of the project (for example, repeated scan runs and interactive work in Kali) are not fully reproduced here but are documented in the written report.
+Some parts of the project (for example, repeated scan runs and interactive work in Kali) are not fully reproduced here and are documented in the written report.
 
 5. FOLDER STRUCTURE
 
 ```
-FYP_Submission/
+fyp-vuln-scanner/
 ├── README.md
 ├── code/
 │   ├── nmap_to_progres.py
@@ -74,10 +74,10 @@ FYP_Submission/
 6.1 Code (code/)
 
 - nmap_to_progres.py
-  Python script that connects to PostgreSQL, creates the vulnerability table, and inserts selected vulnerability findings associated with the Metasploitable scan.
+  Python script that connects to PostgreSQL, creates vulnerability data structures, and inserts selected findings associated with the Metasploitable scan.
 
 - xml_to_csv.py
-  Python script that automatically parses Nmap XML output and extracts open ports, protocols, services, product names, and versions into CSV format.
+  Python script that parses Nmap XML output and extracts open ports, protocols, services, product names, and versions into CSV format.
 
 - README
   Original short project note file retained as a development artefact.
@@ -166,7 +166,7 @@ The intended workflow for the project is:
 4. Use the CSVs in `database/` and `scans/msf_scan.csv` as data sources in Power BI:
    - Open `powerbi/networkVulnScanDashboard.pbix`
    - Connect to the exported CSV files or database
-   - View the dashboard with vulnerability findings
+  - View the dashboard with vulnerability findings.
 
 9. HOW TO RE-RUN (IF DESIRED)
 
@@ -185,7 +185,7 @@ To re-use the scripts in a similar environment:
    - python3 nmap_to_progres.py  
   - python3 xml_to_csv.py
 
-   (Exact arguments and usage depend on the implementation inside the scripts.)
+  (Exact arguments and usage depend on the implementation details in the scripts.)
 
 4. Import or export data to PostgreSQL as described in the report and in any project-specific comments inside the scripts.
 
@@ -195,7 +195,7 @@ To re-use the scripts in a similar environment:
 
 - Some runtime activity and intermediate files exist only inside the original Kali VM and are not fully reproduced in this submission.
 - Several files were used purely for demonstration or experimentation and are not all included here.
-- The artefacts in this folder are a cleaned and structured subset designed to support assessment and understanding of the main project components.
+- The artefacts in this folder are a curated and structured subset designed to support assessment and understanding of the main project components.
 - The written report should be read alongside these artefacts for full context.
 
 11. ETHICAL CONSIDERATIONS
