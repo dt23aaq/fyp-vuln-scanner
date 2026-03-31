@@ -8,7 +8,7 @@ def parse_nmap_xml(xml_file):
     if not os.path.exists(xml_file):
         print(f"Error: {xml_file} not found")
         return
-
+    
     tree = ET.parse(xml_file)
     root = tree.getroot()
 
