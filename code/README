@@ -15,12 +15,12 @@ python3 xml_to_csv.py <input_file.xml>
 **Output:**
 Creates a CSV file with columns: ip, port, protocol, service, product, version
 
-### nmap_to_progres.py
+### nmap_to_postgresql.py
 Imports Nmap XML scan results directly into a PostgreSQL database (Kali default configuration).
 
 **Usage:**
 ```
-python3 nmap_to_progres.py metasploitable-scan.xml
+python3 nmap_to_postgresql.py metasploitable-scan.xml
 ```
 
 **Database Table Created:**

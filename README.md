@@ -50,7 +50,7 @@ Some parts of the project (for example, repeated scan runs and interactive work 
 fyp-vuln-scanner/
 ├── README.md
 ├── code/
-│   ├── nmap_to_progres.py
+│   ├── nmap_to_postgresql.py
 │   ├── xml_to_csv.py
 │   └── README
 ├── scans/
@@ -73,7 +73,7 @@ fyp-vuln-scanner/
 
 6.1 Code (code/)
 
-- nmap_to_progres.py
+- nmap_to_postgresql.py
   Python script that connects to PostgreSQL, creates vulnerability data structures, and inserts selected findings associated with the Metasploitable scan.
 
 - xml_to_csv.py
@@ -135,7 +135,7 @@ The intended workflow for the project is:
    - Save the output to XML (and CSV for Metasploit).
 
 2. Processing  
-  - Use the Python scripts (e.g. nmap_to_progres.py, xml_to_csv.py) to parse scan results and prepare data for storage and analysis.
+  - Use the Python scripts (e.g. nmap_to_postgresql.py, xml_to_csv.py) to parse scan results and prepare data for storage and analysis.
 
 3. Storage (optional in this folder)  
    - Store the processed data in PostgreSQL tables (hosts, services, vulnerabilities, etc.).  
@@ -160,7 +160,7 @@ The intended workflow for the project is:
 
 3. Load vulnerability findings into PostgreSQL:
    ```
-  python3 nmap_to_progres.py
+  python3 nmap_to_postgresql.py
    ```
 
 4. Use the CSVs in `database/exports/` and `scans/msf_scan.csv` as data sources in Power BI:
@@ -182,7 +182,7 @@ To re-use the scripts in a similar environment:
 
 3. Run the Python scripts from the code/ folder, for example:
 
-   - python3 nmap_to_progres.py  
+  - python3 nmap_to_postgresql.py  
   - python3 xml_to_csv.py
 
   (Exact arguments and usage depend on the implementation details in the scripts.)

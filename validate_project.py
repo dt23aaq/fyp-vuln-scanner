@@ -20,7 +20,7 @@ for folder in folders:
 # Check files
 print("\n2. FILE STRUCTURE CHECK:")
 files = {
-    'code': ['nmap_to_progres.py', 'xml_to_csv.py', 'README'],
+    'code': ['nmap_to_postgresql.py', 'xml_to_csv.py', 'README'],
     'scans': ['metasploitable-full.xml', 'metasploitable-scan.xml', 'msf_scan.csv'],
     'database': ['schema.sql', 'db_export.sql'],
     'database/exports': ['hosts.csv', 'services.csv', 'vulns.csv'],
