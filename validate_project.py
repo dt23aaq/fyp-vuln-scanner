@@ -5,6 +5,9 @@ import xml.etree.ElementTree as ET
 import os
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "code"))
+from scanner_core import match_vulnerabilities, parse_nmap_xml
+
 print("=" * 60)
 print("FYP VULNERABILITY SCANNER - PROJECT VALIDATION")
 print("=" * 60)
@@ -73,6 +76,16 @@ for xml_path, description in xml_files.items():
     except FileNotFoundError:
         print(f"   ✗ {description} - File not found")
 
+print("\n3b. SCANNER PIPELINE CHECK:")
+try:
+    services, metadata = parse_nmap_xml('scans/metasploitable-scan.xml')
+    matches = match_vulnerabilities(services)
+    print(f"   ✓ Shared parser returned {len(services)} open services")
+    print(f"   ✓ Rule engine returned {len(matches)} evidence-aware findings")
+    print(f"   ✓ Nmap metadata captured: {metadata['version'] or 'unknown version'}")
+except (ET.ParseError, OSError, ValueError) as e:
+    print(f"   ✗ Scanner pipeline error: {e}")
+
 # Validate CSV files
 print("\n4. DATABASE EXPORTS VALIDATION:")
 csv_files = {
@@ -99,6 +112,9 @@ if os.path.isfile('database/schema.sql'):
         for table in tables:
             if f"CREATE TABLE" in content and table in content:
                 print(f"     - ✓ {table} table defined")
+        for column in ['rule_id', 'evidence_type']:
+            status = "✓" if column in content else "✗"
+            print(f"     - {status} vulnerability provenance column: {column}")
 else:
     print("   ✗ schema.sql not found")
 

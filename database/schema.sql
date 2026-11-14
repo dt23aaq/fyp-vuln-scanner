@@ -38,7 +38,9 @@ CREATE TABLE IF NOT EXISTS vulnerabilities (
     cwe_id VARCHAR(50),
     remediation TEXT,
     discovered_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    verified BOOLEAN DEFAULT FALSE
+    verified BOOLEAN DEFAULT FALSE,
+    rule_id VARCHAR(100),
+    evidence_type VARCHAR(50)
 );
 
 -- Scan Sessions table: Track when scans were performed

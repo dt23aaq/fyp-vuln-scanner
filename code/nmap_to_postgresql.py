@@ -1,18 +1,9 @@
 import argparse
 import os
-import xml.etree.ElementTree as ET
+import sys
 
-
-# Known mappings for common Metasploitable 2 exposure points.
-VULN_MAP_BY_PORT = {
-    21: ("CVE-2011-2523", 10.0, True),
-    22: ("CWE-200", 2.1, False),
-    445: ("CVE-2007-2447", 9.3, True),
-    1524: ("Direct RCE", 10.0, True),
-    3306: ("CWE-521", 8.1, True),
-    5432: ("Weak Auth", 7.5, True),
-    6667: ("CVE-2010-2075", 10.0, True),
-}
+sys.path.insert(0, os.path.dirname(__file__))
+from scanner_core import ServiceRecord, match_vulnerabilities, parse_nmap_xml
 
 
 def resolve_default_xml() -> str:
@@ -28,62 +19,34 @@ def resolve_default_xml() -> str:
 
 
 def parse_open_services(xml_path: str) -> list[dict]:
-    """Parse open service entries from Nmap XML."""
-    tree = ET.parse(xml_path)
-    root = tree.getroot()
-
-    rows = []
-    for host in root.findall("host"):
-        address = host.find("address")
-        ip = address.get("addr", "unknown") if address is not None else "unknown"
-
-        for port in host.findall("ports/port"):
-            state = port.find("state")
-            if state is None or state.get("state") != "open":
-                continue
-
-            service_el = port.find("service")
-            service_name = service_el.get("name", "unknown") if service_el is not None else "unknown"
-            product = service_el.get("product", "") if service_el is not None else ""
-            version = service_el.get("version", "") if service_el is not None else ""
-
-            rows.append(
-                {
-                    "ip": ip,
-                    "port": int(port.get("portid", 0)),
-                    "service": service_name,
-                    "product": product,
-                    "version": version,
-                }
-            )
-    return rows
+    """Compatibility wrapper returning dictionaries for existing callers."""
+    services, _ = parse_nmap_xml(xml_path)
+    return [service.__dict__ for service in services]
 
 
 def to_vuln_rows(service_rows: list[dict]) -> list[tuple]:
-    """Convert parsed services into vulnerability rows for the vulns table."""
-    vuln_rows = []
-    for row in service_rows:
-        port = row["port"]
-        mapping = VULN_MAP_BY_PORT.get(port)
-        if not mapping:
-            continue
-
-        finding, cvss, exploited = mapping
-        service_label = row["service"]
-
-        # Keep version compact but informative for dashboard display.
-        version_bits = [b for b in (row["product"], row["version"]) if b]
-        version_text = " ".join(version_bits) if version_bits else "unknown"
-        if len(version_text) > 50:
-            version_text = version_text[:50]
-
-        vuln_rows.append((port, service_label, version_text, finding, cvss, exploited))
-
-    return vuln_rows
+    """Convert parsed services into evidence-aware vulnerability rows."""
+    services = [ServiceRecord(**row) for row in service_rows]
+    return [
+        (
+            service.ip,
+            service.port,
+            service.protocol,
+            service.service,
+            service.product,
+            service.version,
+            rule.finding,
+            rule.cvss,
+            rule.exploited,
+            rule.rule_id,
+            rule.evidence_type,
+        )
+        for service, rule in match_vulnerabilities(services)
+    ]
 
 
 def load_to_postgres(vuln_rows: list[tuple], dsn: str) -> int:
-    """Create/refresh vulns table with latest parsed vulnerability rows."""
+    """Load findings into the canonical vulnerability table without deleting history."""
     import psycopg2
 
     try:
@@ -97,26 +60,93 @@ def load_to_postgres(vuln_rows: list[tuple], dsn: str) -> int:
 
     cur.execute(
         """
-        CREATE TABLE IF NOT EXISTS vulns (
-            port INTEGER,
-            service VARCHAR(50),
-            version VARCHAR(50),
-            finding VARCHAR(50),
-            cvss FLOAT,
-            exploited BOOLEAN DEFAULT FALSE
+        CREATE TABLE IF NOT EXISTS hosts (
+            host_id SERIAL PRIMARY KEY,
+            ip_address INET NOT NULL UNIQUE,
+            hostname VARCHAR(255),
+            scan_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE TABLE IF NOT EXISTS services (
+            service_id SERIAL PRIMARY KEY,
+            host_id INTEGER NOT NULL REFERENCES hosts(host_id) ON DELETE CASCADE,
+            port INTEGER NOT NULL,
+            protocol VARCHAR(10) NOT NULL DEFAULT 'tcp',
+            service_name VARCHAR(100),
+            product VARCHAR(255),
+            version VARCHAR(100),
+            state VARCHAR(20) DEFAULT 'open',
+            discovery_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(host_id, port, protocol)
+        );
+        CREATE TABLE IF NOT EXISTS vulnerabilities (
+            vuln_id SERIAL PRIMARY KEY,
+            service_id INTEGER NOT NULL REFERENCES services(service_id) ON DELETE CASCADE,
+            vuln_name VARCHAR(255) NOT NULL,
+            description TEXT,
+            severity VARCHAR(20),
+            cvss_score NUMERIC(3,1),
+            cve_id VARCHAR(50),
+            cwe_id VARCHAR(50),
+            discovered_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            verified BOOLEAN DEFAULT FALSE,
+            rule_id VARCHAR(100),
+            evidence_type VARCHAR(50)
         )
         """
     )
+    cur.execute("ALTER TABLE vulnerabilities ADD COLUMN IF NOT EXISTS rule_id VARCHAR(100)")
+    cur.execute("ALTER TABLE vulnerabilities ADD COLUMN IF NOT EXISTS evidence_type VARCHAR(50)")
 
-    cur.execute("DELETE FROM vulns")
     if vuln_rows:
-        cur.executemany(
-            """
-            INSERT INTO vulns (port, service, version, finding, cvss, exploited)
-            VALUES (%s, %s, %s, %s, %s, %s)
-            """,
-            vuln_rows,
-        )
+        for (
+            ip, port, protocol, service, product, version, finding, cvss,
+            exploited, rule_id, evidence_type,
+        ) in vuln_rows:
+            cur.execute(
+                """
+                INSERT INTO hosts (ip_address)
+                VALUES (%s)
+                ON CONFLICT (ip_address) DO UPDATE SET last_updated = CURRENT_TIMESTAMP
+                RETURNING host_id
+                """,
+                (ip,),
+            )
+            host_id = cur.fetchone()[0]
+            cur.execute(
+                """
+                INSERT INTO services
+                    (host_id, port, protocol, service_name, product, version)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                ON CONFLICT (host_id, port, protocol) DO UPDATE SET
+                    service_name = EXCLUDED.service_name,
+                    product = EXCLUDED.product,
+                    version = EXCLUDED.version
+                RETURNING service_id
+                """,
+                (host_id, port, protocol, service, product, version),
+            )
+            service_id = cur.fetchone()[0]
+            severity = (
+                "critical" if cvss >= 9.0 else
+                "high" if cvss >= 7.0 else
+                "medium" if cvss >= 4.0 else "low"
+            )
+            cur.execute(
+                """
+                INSERT INTO vulnerabilities
+                    (service_id, vuln_name, severity, cvss_score, verified, rule_id, evidence_type)
+                SELECT %s, %s, %s, %s, %s, %s, %s
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM vulnerabilities
+                    WHERE service_id = %s AND vuln_name = %s AND rule_id = %s
+                )
+                """,
+                (
+                    service_id, finding, severity, cvss, exploited, rule_id,
+                    evidence_type, service_id, finding, rule_id,
+                ),
+            )
 
     conn.commit()
     cur.close()
@@ -149,8 +179,8 @@ def main() -> None:
     if not os.path.exists(args.xml_path):
         raise SystemExit(f"Error: XML file not found: {args.xml_path}")
 
-    services = parse_open_services(args.xml_path)
-    vuln_rows = to_vuln_rows(services)
+    services, _ = parse_nmap_xml(args.xml_path)
+    vuln_rows = to_vuln_rows([service.__dict__ for service in services])
 
     if args.dry_run:
         print(f"Parsed open services: {len(services)}")
