@@ -176,6 +176,21 @@ python3 xml_to_csv.py
 - Several files were used for demonstration or experimentation and are not all included here.
 - The artefacts in this folder are a curated subset designed to support assessment and understanding of core project components.
 - The written report should be read alongside these artefacts for full context.
+- Detection is intentionally conservative: version-specific rules require a
+  product/version match, while port-only rules are labeled as lab heuristics.
+- The scanner does not execute exploits or query a live CVE feed. Findings
+  should be verified before remediation decisions.
+
+## 10.1 Scanner Development Checks
+
+Run the focused parser/rule tests from the repository root:
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+The shared parser currently preserves host, protocol, state, service,
+product/version, hostname, and Nmap scan metadata. PostgreSQL loading uses the
+normalized schema and keeps prior findings instead of deleting the table.
 
 ## 11. Ethical Considerations
 All scanning for this project was carried out on intentionally vulnerable systems within a closed lab network. No scans were run against systems without explicit permission.

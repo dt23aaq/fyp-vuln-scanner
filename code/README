@@ -4,6 +4,11 @@ This directory contains the Python scripts used for processing network vulnerabi
 
 ## Scripts
 
+### scanner_core.py
+Provides the shared Nmap XML parser and explicit vulnerability rules used by both
+command-line entry points. Rules record whether a match is version-based,
+service-exposure-based, or a lab-specific port heuristic.
+
 ### xml_to_csv.py
 Converts Nmap XML output to CSV format for easier analysis and import into other tools.
 
@@ -13,7 +18,7 @@ python3 xml_to_csv.py <input_file.xml>
 ```
 
 **Output:**
-Creates a CSV file with columns: ip, port, protocol, service, product, version
+Creates a CSV file with columns: ip, port, protocol, state, service, product, version, hostname
 
 ### nmap_to_postgresql.py
 Imports Nmap XML scan results directly into a PostgreSQL database (Kali default configuration).
@@ -23,23 +28,29 @@ Imports Nmap XML scan results directly into a PostgreSQL database (Kali default 
 python3 nmap_to_postgresql.py metasploitable-scan.xml
 ```
 
-**Database Table Created:**
-- port: INTEGER
-- service: VARCHAR(50)
-- version: VARCHAR(50)
-- cve: VARCHAR(50)
-- cvss: FLOAT
-- exploited: BOOLEAN
+Findings are stored in the normalized `hosts`, `services`, and `vulnerabilities`
+tables defined in `database/schema.sql`. Existing findings are not deleted on
+each run; rule IDs and evidence types preserve provenance.
 
 **Default Configuration:**
 - Database: msf
 - User: msf
 - Password: (empty)
 
-**Sample Vulnerabilities Loaded:**
+**Sample Vulnerability Rules:**
 - vsftpd 2.3.4 (CVE-2011-2523, CVSS 10.0)
 - Bindshell root shell (Direct RCE, CVSS 10.0)
 - Samba 3.0.20 (CVE-2007-2447, CVSS 9.3)
 - PostgreSQL 8.3.0 (Weak Auth, CVSS 7.5)
 - UnrealIRCd 3.2.8.1 (CVE-2010-2075, CVSS 10.0)
+
+Port-only matches are lab heuristics, not proof that a vulnerability is
+present. Version-specific rules require the expected product and version.
+
+### Tests
+
+Run parser and rule regression tests from the repository root:
+```
+python3 -m unittest discover -s tests -v
+```
 
